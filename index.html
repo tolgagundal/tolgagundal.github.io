@@ -1,6 +1,4 @@
-from pathlib import Path
-
-html = r"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -69,7 +67,4 @@ function run(){if(i<lines.length){document.getElementById("typing").innerHTML+=l
 run();
 </script>
 </body>
-</html>"""
-path = "/mnt/data/tolgagundal_portfolio_index.html"
-Path(path).write_text(html, encoding="utf-8")
-print(path)
+</html>
