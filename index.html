@@ -1,371 +1,75 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Tolga Gündal | Data Analytics Portfolio</title>
-
+<title>Tolga Gündal | Analytics Portfolio</title>
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    background:#050b15;
-    color:#e6edf3;
-    font-family:Segoe UI, sans-serif;
-    line-height:1.6;
-}
-
-nav{
-    position:fixed;
-    width:100%;
-    top:0;
-    background:#050b15ee;
-    backdrop-filter:blur(8px);
-    padding:20px;
-    z-index:999;
-}
-
-nav ul{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    list-style:none;
-}
-
-nav a{
-    color:#3fb950;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-section{
-    max-width:1100px;
-    margin:auto;
-    padding:100px 20px;
-}
-
-.hero{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.card{
-    width:100%;
-    background:#111827;
-    border:1px solid #223047;
-    border-radius:16px;
-    padding:50px;
-}
-
-.matrix{
-    color:#3fb950;
-    font-family:monospace;
-    margin-bottom:20px;
-}
-
-h1{
-    font-size:70px;
-    line-height:1;
-    margin-bottom:20px;
-}
-
-.highlight{
-    color:#3fb950;
-}
-
-.subtitle{
-    font-size:28px;
-    margin-bottom:20px;
-}
-
-.description{
-    max-width:800px;
-    font-size:18px;
-    color:#c9d1d9;
-}
-
-.buttons{
-    margin-top:30px;
-}
-
-.btn{
-    display:inline-block;
-    padding:12px 24px;
-    margin-right:10px;
-    margin-bottom:10px;
-    border:1px solid #3fb950;
-    border-radius:8px;
-    text-decoration:none;
-    color:white;
-    transition:0.3s;
-}
-
-.btn:hover{
-    background:#3fb950;
-    color:black;
-}
-
-h2{
-    color:#3fb950;
-    margin-bottom:30px;
-    font-size:36px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
-
-.skill,
-.project,
-.exp{
-    background:#111827;
-    border:1px solid #223047;
-    padding:25px;
-    border-radius:12px;
-}
-
-footer{
-    text-align:center;
-    padding:50px;
-    color:#777;
-}
-
-@media(max-width:768px){
-
-h1{
-    font-size:42px;
-}
-
-.subtitle{
-    font-size:20px;
-}
-
-nav ul{
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.card{
-    padding:30px;
-}
-
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;color:#e5e5e5;font-family:Arial,sans-serif}
+.hero{min-height:100vh;display:flex;align-items:center;padding:8%}
+.green{color:#00ff88}
+.tag{color:#00ff88;font-family:monospace;margin-bottom:20px}
+h1{font-size:90px;line-height:.9}
+.subtitle{font-size:24px;color:#aaa;margin:20px 0}
+.description{max-width:800px;line-height:1.8}
+.btn{display:inline-block;margin:10px 10px 0 0;padding:12px 24px;border:1px solid #00ff88;color:white;text-decoration:none}
+.btn:hover{background:#00ff88;color:black}
+.section{padding:80px 8%}
+h2{color:#00ff88;margin-bottom:25px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:#111;padding:20px;border:1px solid #222}
+footer{text-align:center;padding:40px;color:#777}
+@media(max-width:768px){h1{font-size:52px}}
 </style>
 </head>
-
 <body>
-
-<nav>
-<ul>
-<li><a href="#about">About</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#experience">Experience</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</nav>
-
 <section class="hero">
-
-<div class="card">
-
-<div class="matrix" id="matrixText"></div>
-
-<h1>
-Tolga <span class="highlight">Gündal</span>
-</h1>
-
-<div class="subtitle">
-Data-Driven Operations & Analytics Professional
+<div>
+<div class="tag" id="typing"></div>
+<h1>TOLGA<br><span class="green">GÜNDAL</span></h1>
+<div class="subtitle">Data Quality • Analytics • Reporting</div>
+<div class="description">
+Data-driven professional with experience in operations, reporting, customer success, and data quality. Skilled in SQL, Excel, CRM systems, and analytics-driven decision making.
 </div>
-
-<p class="description">
-M.Sc. Data Analytics candidate based in Berlin with experience in
-Data Quality Operations, Reporting, Customer Success Analytics,
-Learning Analytics and Business Operations.
-
-Skilled in SQL, Python, Excel, CRM systems and stakeholder-focused
-analytics to support operational and business decision-making.
-</p>
-
-<div class="buttons">
-
-<a class="btn" href="#projects">View Projects</a>
-
-<a class="btn"
-href="https://github.com/tolgagundal"
-target="_blank">
-GitHub
-</a>
-
-<a class="btn"
-href="https://linkedin.com"
-target="_blank">
-LinkedIn
-</a>
-
+<p style="margin-top:20px">M.Sc. Data Analytics | Berlin</p>
+<div>
+<a class="btn" href="https://github.com/tolgagundal">GitHub</a>
+<a class="btn" href="https://www.linkedin.com">LinkedIn</a>
 </div>
-
 </div>
-
 </section>
 
-<section id="about">
-
-<h2>About</h2>
-
-<p>
-I am a data-driven professional with experience across operations,
-reporting, customer success, learning analytics and data quality.
-
-My recent experience includes Data Quality Operations at Delivery Hero,
-customer analytics at Enocta and reporting-focused roles at Trendyol GO
-and QNB.
-</p>
-
-</section>
-
-<section id="skills">
-
-<h2>Skills</h2>
-
-<div class="grid">
-
-<div class="skill">SQL</div>
-<div class="skill">Python</div>
-<div class="skill">Excel</div>
-<div class="skill">Power BI</div>
-<div class="skill">Data Quality</div>
-<div class="skill">Reporting & Analytics</div>
-<div class="skill">CRM Analytics</div>
-<div class="skill">Learning Analytics</div>
-
-</div>
-
-</section>
-
-<section id="experience">
-
+<section class="section">
 <h2>Experience Highlights</h2>
-
 <div class="grid">
-
-<div class="exp">
-<h3>Delivery Hero</h3>
-<p>
-Data Quality Operations, marketplace datasets,
-validation and operational decision support.
-</p>
+<div class="card"><h3>Delivery Hero</h3><p>Data Quality Operations & marketplace data validation.</p></div>
+<div class="card"><h3>Enocta</h3><p>Customer success analytics, adoption metrics and reporting.</p></div>
+<div class="card"><h3>Trendyol GO</h3><p>Operations reporting and stakeholder analytics.</p></div>
 </div>
-
-<div class="exp">
-<h3>Enocta</h3>
-<p>
-Customer analytics, platform adoption,
-engagement metrics and reporting.
-</p>
-</div>
-
-<div class="exp">
-<h3>Trendyol GO</h3>
-<p>
-Reporting, onboarding analytics,
-stakeholder communication and data accuracy.
-</p>
-</div>
-
-</div>
-
 </section>
 
-<section id="projects">
-
+<section class="section">
 <h2>Featured Projects</h2>
-
 <div class="grid">
-
-<div class="project">
-<h3>Bitcoin Analytics</h3>
-<p>Python • Pandas • Data Visualization</p>
+<div class="card"><h3>SQL Analytics Projects</h3></div>
+<div class="card"><h3>Big Data Movie Dataset</h3></div>
+<div class="card"><h3>Data Labeling Project</h3></div>
+<div class="card"><h3>Mushroom Classification</h3></div>
 </div>
-
-<div class="project">
-<h3>Customer Analytics</h3>
-<p>SQL • KPI Analysis • Reporting</p>
-</div>
-
-<div class="project">
-<h3>HR Analytics Dashboard</h3>
-<p>Power BI • Visualization</p>
-</div>
-
-<div class="project">
-<h3>Data Quality Analysis</h3>
-<p>Operations Analytics • Reporting</p>
-</div>
-
-</div>
-
 </section>
 
-<section id="contact">
-
-<h2>Contact</h2>
-
-<p>Email: tolgagundal1@gmail.com</p>
-<p>Berlin, Germany</p>
-
-</section>
-
-<footer>
-
-© 2026 Tolga Gündal
-
-</footer>
-
+<footer>© 2026 Tolga Gündal</footer>
 <script>
-
-const text = [
-"> Initializing profile...",
-"> Loading analytics portfolio...",
-"> Loading experience...",
-"> Welcome recruiter."
-];
-
-let i = 0;
-
-function typeLine(){
-
-if(i < text.length){
-
-document.getElementById("matrixText").innerHTML += text[i] + "<br>";
-
-i++;
-
-setTimeout(typeLine,700);
-
-}
-
-}
-
-typeLine();
-
+const lines=["> Initializing profile...","> Loading analytics portfolio...","> Welcome recruiter."];
+let i=0;
+function run(){if(i<lines.length){document.getElementById("typing").innerHTML+=lines[i]+"<br>";i++;setTimeout(run,700);}}
+run();
 </script>
-
 </body>
-</html>
+</html>"""
+path = "/mnt/data/tolgagundal_portfolio_index.html"
+Path(path).write_text(html, encoding="utf-8")
+print(path)
