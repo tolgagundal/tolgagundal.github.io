@@ -1,248 +1,43 @@
 from pathlib import Path
 
-# Use the generated portrait image already created in this conversation.
-img_src = Path("/mnt/data/a_sleek_dark_themed_personal_portfolio_homepage_he.png")
-site_dir = Path("/mnt/data/tolga-github-pages")
-site_dir.mkdir(exist_ok=True)
+site = Path("/mnt/data/tolga-github-pages")
+p = site / "index.html"
+html = p.read_text(encoding="utf-8")
 
-html = r'''<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tolga Gündal | People Operations • Analysis • AI & Data Quality</title>
-<style>
-:root{
-  --bg:#050505;--panel:#101010;--panel2:#151515;--text:#f3f3f3;
-  --muted:#a3a3a3;--accent:#f5c542;--border:#272727;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
-a{color:inherit;text-decoration:none}
-.container{width:min(1180px,90%);margin:auto}
+# Replace the old image-only setup with the new clean right-side hero artwork.
+html = html.replace(
+    '<img class="hero-image" src="tolga-anime.png" alt="Illustrated portrait of Tolga Gündal">\n'
+    '      <div class="badge b1"><strong>People Operations</strong>People &amp; process</div>\n'
+    '      <div class="badge b2"><strong>Analysis</strong>Insights &amp; decisions</div>\n'
+    '      <div class="badge b3"><strong>AI &amp; Data Quality</strong>Accurate &amp; efficient</div>',
+    '<img class="hero-image" src="tolga-hero.png" alt="Illustrated portrait of Tolga Gündal in Berlin">'
+)
 
-nav{
-  position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(5,5,5,.9);
-  backdrop-filter:blur(12px);border-bottom:1px solid #111;
-}
-.nav-inner{height:74px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:22px;font-weight:800}.logo span{color:var(--accent)}
-.nav-links{display:flex;gap:24px;font-size:14px;font-weight:700}
-.nav-links a{color:#d5d5d5}.nav-links a:hover{color:var(--accent)}
+# Adjust the visual area so the supplied artwork sits as one clean composition.
+html = html.replace(
+    'width:min(540px,100%);height:610px;',
+    'width:min(620px,100%);height:600px;'
+)
+html = html.replace(
+    'width:100%;height:100%;object-fit:contain;',
+    'width:100%;height:100%;object-fit:contain;'
+)
 
-.hero{
-  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:56px;
-  align-items:center;padding:120px 0 70px;
-}
-.tag{color:var(--accent);font:14px "Courier New",monospace;letter-spacing:2px;margin-bottom:20px}
-h1{font-size:clamp(60px,8vw,104px);line-height:.88;letter-spacing:-5px;margin-bottom:25px}
-h1 .gold{color:var(--accent)}
-.subtitle{font-size:23px;font-weight:700;color:#ddd;max-width:720px}
-.sep{color:var(--accent);padding:0 4px}
-.description{margin-top:18px;max-width:670px;color:var(--muted);font-size:17px;line-height:1.8}
-.location{margin-top:18px;color:#ddd;font-weight:600}
-.buttons{margin-top:28px}
-.btn{display:inline-block;border:1px solid var(--accent);padding:11px 22px;margin:0 9px 9px 0;font-weight:700}
-.btn:hover{background:var(--accent);color:#080808}
+# Remove unused badge rules visually (kept harmlessly but no longer used).
+# Make the right artwork slightly larger on desktop and balanced on mobile.
+html = html.replace(
+    '@media(max-width:900px){\n  .hero{grid-template-columns:1fr;padding-top:115px}\n  .hero-art{min-height:460px}\n  .art-wrap{height:500px}',
+    '@media(max-width:900px){\n  .hero{grid-template-columns:1fr;padding-top:115px}\n  .hero-art{min-height:500px}\n  .art-wrap{height:520px}'
+)
 
-.hero-art{
-  display:flex;align-items:center;justify-content:center;min-height:560px;
-}
-.art-wrap{
-  position:relative;width:min(540px,100%);height:610px;
-  display:flex;align-items:center;justify-content:center;
-}
-.art-wrap::before{
-  content:"";position:absolute;width:430px;height:430px;border-radius:50%;
-  background:rgba(245,197,66,.06);filter:blur(32px);
-}
-.hero-image{
-  position:relative;z-index:2;width:100%;height:100%;object-fit:contain;
-  filter:drop-shadow(0 30px 70px rgba(0,0,0,.6));
-}
-.badge{
-  position:absolute;z-index:4;background:#121212;border:1px solid #2c2c2c;
-  border-radius:14px;padding:12px 16px;box-shadow:0 18px 50px rgba(0,0,0,.5);
-  font-size:13px;color:#ddd;
-}
-.badge strong{display:block;color:var(--accent);margin-bottom:3px;font-size:14px}
-.b1{top:72px;right:-2px}.b2{bottom:90px;left:-8px}.b3{bottom:18px;right:35px}
+p.write_text(html, encoding="utf-8")
 
-.section{padding:100px 0;border-top:1px solid #121212}
-.label{color:var(--accent);font:14px "Courier New",monospace;margin-bottom:10px}
-h2{font-size:48px;letter-spacing:-2px;margin-bottom:38px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:27px}
-.card:hover{border-color:#3a3a3a;transform:translateY(-3px);transition:.2s}
-.num{color:var(--accent);font:12px "Courier New",monospace;margin-bottom:15px}
-.card h3{font-size:22px;margin-bottom:10px}
-.card p{color:var(--muted);line-height:1.75}
+# Keep a copy of the new hero asset under the referenced name as well, so there is no ambiguity.
+old_img = site / "tolga-anime.png"
+if old_img.exists():
+    old_img.unlink()
 
-.skill-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
-.skill{background:#0d0d0d;border:1px solid var(--border);border-radius:14px;padding:17px;font-weight:700;color:#ddd}
-.skill small{display:block;color:var(--accent);font:11px "Courier New",monospace;margin-bottom:6px}
-
-.contact{
-  display:flex;align-items:center;justify-content:space-between;gap:30px;
-  background:linear-gradient(135deg,#111,#090909);border:1px solid var(--border);
-  border-radius:24px;padding:42px;
-}
-.contact p{max-width:650px;color:var(--muted)}
-
-footer{text-align:center;padding:42px 0;color:#666;border-top:1px solid #121212}
-
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding-top:115px}
-  .hero-art{min-height:460px}
-  .art-wrap{height:500px}
-  .grid{grid-template-columns:1fr 1fr}
-  .skill-grid{grid-template-columns:1fr 1fr}
-  .nav-links{gap:14px;font-size:12px}
-}
-@media(max-width:620px){
-  .nav-inner{height:66px}.nav-links{gap:9px;font-size:10px}
-  h1{letter-spacing:-3px}.subtitle{font-size:18px}
-  .description{font-size:15px}.hero-art{min-height:390px}
-  .art-wrap{height:410px}.badge{display:none}
-  .grid,.skill-grid{grid-template-columns:1fr}
-  h2{font-size:38px}.contact{flex-direction:column;align-items:flex-start;padding:30px}
-}
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-inner container">
-    <a class="logo" href="#home">Tolga<span>.</span></a>
-    <div class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#languages">Languages</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-</nav>
-
-<main>
-<section class="hero container" id="home">
-  <div>
-    <div class="tag">&gt; WELCOME</div>
-    <h1>Tolga<br><span class="gold">Gündal</span></h1>
-    <div class="subtitle">
-      People Operations <span class="sep">•</span>
-      Analysis <span class="sep">•</span>
-      AI &amp; Data Quality
-    </div>
-    <div class="description">
-      I turn people, processes and data into better experiences.
-      With experience across customer success, operations and analytics,
-      I enjoy improving workflows, supporting people and using data and AI
-      to solve practical business problems.
-    </div>
-    <div class="location">Berlin, Germany • M.Sc. Data Analytics</div>
-    <div class="buttons">
-      <a class="btn" href="https://github.com/tolgagundal" target="_blank">GitHub</a>
-      <a class="btn" href="https://de.linkedin.com/in/tolgagundal" target="_blank">LinkedIn</a>
-    </div>
-  </div>
-
-  <div class="hero-art">
-    <div class="art-wrap">
-      <img class="hero-image" src="tolga-anime.png" alt="Illustrated portrait of Tolga Gündal">
-      <div class="badge b1"><strong>People Operations</strong>People &amp; process</div>
-      <div class="badge b2"><strong>Analysis</strong>Insights &amp; decisions</div>
-      <div class="badge b3"><strong>AI &amp; Data Quality</strong>Accurate &amp; efficient</div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="about">
-  <div class="container">
-    <div class="label">&gt; ABOUT</div>
-    <h2>What I bring</h2>
-    <div class="grid">
-      <div class="card"><div class="num">01 / PEOPLE</div><h3>People Operations</h3><p>People-first operational support across onboarding, employee processes, learning, employee data and day-to-day People activities.</p></div>
-      <div class="card"><div class="num">02 / CUSTOMER</div><h3>Customer Success</h3><p>Customer-focused support, request management, issue resolution and cross-functional coordination to create a smooth experience.</p></div>
-      <div class="card"><div class="num">03 / OPERATIONS</div><h3>Operational Excellence</h3><p>Connecting people, systems and processes to improve execution, data accuracy and stakeholder support.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="skills">
-  <div class="container">
-    <div class="label">&gt; SKILLS</div>
-    <h2>Core strengths</h2>
-    <div class="skill-grid">
-      <div class="skill"><small>01</small>People Operations</div>
-      <div class="skill"><small>02</small>Customer Success</div>
-      <div class="skill"><small>03</small>Analysis</div>
-      <div class="skill"><small>04</small>AI &amp; Data Quality</div>
-      <div class="skill"><small>05</small>Employee Experience</div>
-      <div class="skill"><small>06</small>Onboarding</div>
-      <div class="skill"><small>07</small>Learning &amp; Development</div>
-      <div class="skill"><small>08</small>LMS Administration</div>
-      <div class="skill"><small>09</small>Employee Data</div>
-      <div class="skill"><small>10</small>CRM &amp; Ticketing</div>
-      <div class="skill"><small>11</small>JIRA</div>
-      <div class="skill"><small>12</small>Reporting &amp; Analytics</div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="languages">
-  <div class="container">
-    <div class="label">&gt; LANGUAGES</div>
-    <h2>Languages</h2>
-    <div class="grid">
-      <div class="card"><div class="num">01 / GERMAN</div><h3>Deutsch</h3><p>B1 — telc Certificate</p></div>
-      <div class="card"><div class="num">02 / ENGLISH</div><h3>English</h3><p>Professional working proficiency</p></div>
-      <div class="card"><div class="num">03 / TURKISH</div><h3>Türkçe</h3><p>Native</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="projects">
-  <div class="container">
-    <div class="label">&gt; PROJECTS</div>
-    <h2>Selected work</h2>
-    <div class="grid">
-      <div class="card"><div class="num">PROJECT 01</div><h3>Customer &amp; Operations Analytics</h3><p>Analytics work turning operational and customer data into useful insights.</p><a class="btn" style="margin-top:18px" href="https://github.com/tolgagundal" target="_blank">View GitHub</a></div>
-      <div class="card"><div class="num">PROJECT 02</div><h3>Data Quality &amp; Operations</h3><p>Work around data accuracy, operational requests, stakeholder support and process reliability.</p><a class="btn" style="margin-top:18px" href="https://github.com/tolgagundal" target="_blank">View GitHub</a></div>
-      <div class="card"><div class="num">PROJECT 03</div><h3>Data Analytics Projects</h3><p>SQL, analytics and academic projects demonstrating structured problem solving.</p><a class="btn" style="margin-top:18px" href="https://github.com/tolgagundal" target="_blank">View GitHub</a></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="contact">
-  <div class="container">
-    <div class="contact">
-      <div>
-        <div class="label">&gt; CONTACT</div>
-        <h2 style="margin-bottom:10px">Let's connect.</h2>
-        <p>Interested in People Operations, Customer Success, Analysis and AI &amp; Data Quality roles where people, systems and processes come together.</p>
-      </div>
-      <div>
-        <a class="btn" href="https://de.linkedin.com/in/tolgagundal" target="_blank">LinkedIn</a>
-        <a class="btn" href="https://github.com/tolgagundal" target="_blank">GitHub</a>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
-
-<footer>© 2026 Tolga Gündal</footer>
-</body>
-</html>
-'''
-
-html_path = site_dir / "index.html"
-img_path = site_dir / "tolga-anime.png"
-html_path.write_text(html, encoding="utf-8")
-img_path.write_bytes(img_src.read_bytes())
-
-print("READY")
-print("1:", html_path)
-print("2:", img_path)
+print("FINAL SITE PACKAGE READY")
+print("HTML:", p)
+print("Hero artwork:", site / "tolga-hero.png")
+print("Removed the old full-page screenshot image.")
