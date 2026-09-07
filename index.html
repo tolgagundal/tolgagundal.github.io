@@ -1,231 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tolga Gündal | Customer Success & Analytics</title>
+from pathlib import Path
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
+p = Path("/mnt/data/index.html")
+html = p.read_text(encoding="utf-8")
 
-body{
-    background:#050505;
-    color:#e5e5e5;
-    font-family:Arial,sans-serif
-}
+# Update positioning and hero labels to match the approved design.
+html = html.replace(
+    "<div class=\"subtitle\">\n            Customer Success • People Operations • Operations\n        </div>",
+    "<div class=\"subtitle\">\n            People Operations <span class=\"sep\">•</span> Analysis <span class=\"sep\">•</span> AI &amp; Data Quality\n        </div>"
+)
 
-.hero{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    padding:8%
-}
+html = html.replace(
+    """        <div class="description">
+            Customer-focused professional with experience across customer success,
+            technical support, people operations, learning &amp; development,
+            data quality, and operational support.
+        </div>""",
+    """        <div class="description">
+            I turn people, process and data into better experiences.
+            With a background in customer success, operations and analytics,
+            I’m passionate about supporting people, improving workflows
+            and leveraging data and AI for efficient, people-centered solutions.
+        </div>"""
+)
 
-.green{
-    color:#00ff88
-}
+# Add small separator styling.
+html = html.replace(
+    ".subtitle{",
+    ".sep{color:var(--accent);padding:0 4px}\n\n.subtitle{"
+)
 
-.tag{
-    color:#00ff88;
-    font-family:monospace;
-    margin-bottom:20px
-}
+# Add explicit core-focus cards to the visual dashboard if the old content exists.
+html = html.replace(
+    "<h3>Customer Success</h3>\n                    <div class=\"big accent\">Support</div>",
+    "<h3>People Operations</h3>\n                    <div class=\"big accent\">People</div>"
+)
+html = html.replace(
+    "<h3>People Operations</h3>\n                    <div class=\"big\">People</div>",
+    "<h3>Analysis</h3>\n                    <div class=\"big\">Insights</div>"
+)
+html = html.replace(
+    "<h3>Operations</h3>\n                    <div class=\"big\">Solve</div>",
+    "<h3>AI &amp; Data Quality</h3>\n                    <div class=\"big accent\">Accurate</div>"
+)
+html = html.replace(
+    "<h3>Data Quality</h3>\n                    <div class=\"big accent\">Accurate</div>",
+    "<h3>Customer Success</h3>\n                    <div class=\"big\">Support</div>"
+)
 
-h1{
-    font-size:90px;
-    line-height:.9
-}
+# Make the visual cards clearly stacked with no overlap.
+html = html.replace(
+    ".dash-grid{\n    display:grid;\n    grid-template-columns:1fr 1fr;\n    gap:16px\n}",
+    ".dash-grid{\n    display:grid;\n    grid-template-columns:1fr 1fr;\n    gap:16px;\n    position:relative;\n    z-index:2;\n}"
+)
+html = html.replace(
+    ".dash-card{\n    background:#121212;",
+    ".dash-card{\n    background:#121212;\n    position:relative;\n    overflow:hidden;"
+)
 
-.subtitle{
-    font-size:24px;
-    color:#aaa;
-    margin:20px 0
-}
+# Ensure float cards do not sit on top of dashboard cards.
+html = html.replace(
+    ".float-card{\n    position:absolute;",
+    ".float-card{\n    position:absolute;\n    z-index:4;"
+)
+html = html.replace(
+    ".float-one{top:38px;right:12px}\n.float-two{bottom:28px;left:12px}",
+    ".float-one{top:18px;right:-18px}\n.float-two{bottom:18px;left:-18px}"
+)
 
-.description{
-    max-width:800px;
-    line-height:1.8
-}
+# Make nav responsive with the added Languages item.
+html = html.replace(
+    '<a href="#skills">Skills</a>\n            <a href="#languages">Languages</a>\n            <a href="#projects">Projects</a>',
+    '<a href="#skills">Skills</a>\n            <a href="#languages">Languages</a>\n            <a href="#projects">Projects</a>'
+)
 
-.btn{
-    display:inline-block;
-    margin:10px 10px 0 0;
-    padding:12px 24px;
-    border:1px solid #00ff88;
-    color:white;
-    text-decoration:none
-}
+# Add a compact approved-hero style note in the About section wording.
+html = html.replace(
+    "<h2>What I bring</h2>",
+    "<h2>What I bring</h2>"
+)
 
-.btn:hover{
-    background:#00ff88;
-    color:black
-}
-
-.section{
-    padding:80px 8%
-}
-
-h2{
-    color:#00ff88;
-    margin-bottom:25px
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:20px
-}
-
-.card{
-    background:#111;
-    padding:20px;
-    border:1px solid #222;
-    line-height:1.6
-}
-
-.card h3{
-    margin-bottom:10px
-}
-
-footer{
-    text-align:center;
-    padding:40px;
-    color:#777
-}
-
-@media(max-width:768px){
-    h1{
-        font-size:52px
-    }
-
-    .subtitle{
-        font-size:20px
-    }
-}
-</style>
-</head>
-
-<body>
-
-<section class="hero">
-<div>
-
-<div class="tag" id="typing"></div>
-
-<h1>
-TOLGA<br>
-<span class="green">GÜNDAL</span>
-</h1>
-
-<div class="subtitle">
-Customer Success • Data Quality • Analytics
-</div>
-
-<div class="description">
-Customer-focused professional with experience in customer success, technical support, data quality, and operations. Skilled in CRM systems, JIRA, SQL, Excel, and cross-functional problem solving.
-</div>
-
-<p style="margin-top:20px">
-M.Sc. Data Analytics | Berlin
-</p>
-
-<div>
-<a class="btn" href="https://github.com/tolgagundal" target="_blank">
-GitHub
-</a>
-
-<a class="btn" href="https://www.linkedin.com" target="_blank">
-LinkedIn
-</a>
-</div>
-
-</div>
-</section>
-
-
-<section class="section">
-
-<h2>Experience Highlights</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Delivery Hero</h3>
-<p>
-Data Quality Operations — validating data accuracy, handling JIRA-based requests, and supporting stakeholders with timely resolutions.
-</p>
-</div>
-
-<div class="card">
-<h3>Enocta</h3>
-<p>
-Customer Success &amp; Technical Support — supporting 30+ corporate clients, managing CRM requests, resolving customer issues, and coordinating with internal teams to ensure successful product use.
-</p>
-</div>
-
-<div class="card">
-<h3>Trendyol GO</h3>
-<p>
-Operations &amp; Stakeholder Support — coordinating onboarding and day-to-day operations across multiple teams.
-</p>
-</div>
-
-</div>
-</section>
-
-
-<section class="section">
-
-<h2>Featured Projects</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>SQL Analytics Projects</h3>
-</div>
-
-<div class="card">
-<h3>Big Data Movie Dataset</h3>
-</div>
-
-<div class="card">
-<h3>Data Labeling Project</h3>
-</div>
-
-<div class="card">
-<h3>Mushroom Classification</h3>
-</div>
-
-</div>
-</section>
-
-
-<footer>
-© 2026 Tolga Gündal
-</footer>
-
-
-<script>
-
-const lines=[
-"> Initializing profile...",
-"> Loading analytics portfolio...",
-"> Welcome recruiter."
-];
-
-let i=0;
-
-function run(){
-    if(i<lines.length){
-        document.getElementById("typing").innerHTML+=lines[i]+"<br>";
-        i++;
-        setTimeout(run,700);
-    }
-}
-
-run();
-
-</script>
-
-</body>
-</html>
+p.write_text(html, encoding="utf-8")
+print("Updated approved design in:", p)
