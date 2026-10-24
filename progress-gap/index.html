@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A three-question self-check on the gap between learning and applying, with one action for this week.">
+<title>Progress Gap Scorecard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow column. Three questions, a sticky action bar, then a result panel with a gap meter, one action and report benchmarks. */
+:root {
+  --bg: #F3F5F7;
+  --surface: #FFFFFF;
+  --surface-2: #E8ECF0;
+  --fg: #14181F;
+  --muted: #4B5563;
+  --line: #CBD2DA;
+  --accent: #2F6A00;
+  --on-accent: #FFFFFF;
+  --accent-soft: #E3F0D3;
+  --display: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101214; --surface: #1A1D21; --surface-2: #2B2F35; --fg: #F4F1EA; --muted: #A9AEB6;
+    --line: #3A3F46; --accent: #C8F169; --on-accent: #101214; --accent-soft: #26301A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101214; --surface: #1A1D21; --surface-2: #2B2F35; --fg: #F4F1EA; --muted: #A9AEB6;
+  --line: #3A3F46; --accent: #C8F169; --on-accent: #101214; --accent-soft: #26301A;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.5;
+  padding-block: 32px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.eyebrow { font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.lang { display: flex; gap: 6px; }
+.lang button { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.lang button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(36px, 8vw, 56px); line-height: 1.02; letter-spacing: -0.02em; margin: 8px 0 12px; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 60ch; margin: 0; }
+form { display: flex; flex-direction: column; gap: 18px; }
+fieldset { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 20px; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+legend { padding: 0; float: left; width: 100%; font-weight: 700; font-size: 19px; line-height: 1.35; }
+legend + * { clear: both; }
+.qtag { display: block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+.opt { position: relative; min-width: 0; }
+.opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.opt span { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 52px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); font-size: 15px; font-weight: 500; }
+.opt input:hover + span { border-color: var(--accent); }
+.opt input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+.opt input:focus-visible + span { outline: 3px solid var(--fg); outline-offset: 2px; }
+.bar { position: sticky; bottom: 0; background: var(--bg); padding-block: 12px; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+.count { color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums; }
+button { font: inherit; font-weight: 700; min-height: 48px; padding: 0 22px; border-radius: 10px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); cursor: pointer; }
+button:disabled { background: var(--surface-2); border-color: var(--line); color: var(--muted); cursor: not-allowed; }
+button.ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+button:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+#result { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px; }
+#result[hidden] { display: none !important; }
+.score { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.score big { font-family: var(--display); font-weight: 800; font-size: clamp(64px, 18vw, 104px); line-height: 0.9; letter-spacing: -0.03em; color: var(--accent); font-variant-numeric: tabular-nums; }
+.score span { font-size: 20px; font-weight: 700; }
+.track { height: 16px; background: var(--surface-2); border-radius: 8px; overflow: hidden; }
+.fill { height: 100%; background: var(--accent); border-radius: 8px; transition: width 0.5s ease; }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+.action { background: var(--accent-soft); border-radius: 12px; padding: 18px 20px; }
+.action h2 { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 6px; color: var(--accent); }
+.action p { margin: 0; font-size: 18px; }
+.bench { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.bench li { border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-width: 0; }
+.bench b { display: block; font-family: var(--display); font-size: 34px; line-height: 1; font-weight: 800; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.bench span { font-size: 14px; color: var(--muted); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.small { font-size: 14px; color: var(--muted); margin: 0; max-width: 62ch; }
+.status { min-height: 1.4em; font-size: 14px; color: var(--muted); margin: 0; }
+.back { color: var(--muted); font-size: 15px; text-decoration: none; align-self: flex-start; }
+.back:hover { color: var(--accent); text-decoration: underline; }
+.back:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+</style>
+
+</head>
+<body>
+<main>
+  <a class="back" href="../">&larr; tolgagundal.github.io</a>
+  <div class="top">
+    <div class="eyebrow" id="t_eyebrow"></div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" class="ghost" id="l_en" aria-pressed="true">EN</button>
+      <button type="button" class="ghost" id="l_tr" aria-pressed="false">TR</button>
+    </div>
+  </div>
+  <header>
+    <h1>Progress Gap Scorecard</h1>
+    <p class="lede" id="t_lede"></p>
+  </header>
+
+  <form id="quiz" novalidate>
+    <fieldset><legend><span class="qtag" id="t_q1tag"></span><span id="t_q1"></span></legend><div class="opts" id="o1"></div></fieldset>
+    <fieldset><legend><span class="qtag" id="t_q2tag"></span><span id="t_q2"></span></legend><div class="opts" id="o2"></div></fieldset>
+    <fieldset><legend><span class="qtag" id="t_q3tag"></span><span id="t_q3"></span></legend><div class="opts" id="o3"></div></fieldset>
+    <div class="bar">
+      <span class="count" id="count" aria-live="polite"></span>
+      <button type="submit" id="go" disabled></button>
+    </div>
+  </form>
+
+  <section id="result" hidden aria-live="polite">
+    <div>
+      <div class="eyebrow" id="t_rey"></div>
+      <div class="score"><big id="gap">0%</big><span id="rtitle"></span></div>
+    </div>
+    <div class="track" role="img" id="tr"><div class="fill" id="fill" style="width:0%"></div></div>
+    <p id="reading" style="margin:0"></p>
+    <div class="action">
+      <h2 id="t_ah"></h2>
+      <p id="action"></p>
+    </div>
+    <div>
+      <div class="eyebrow" id="t_bh" style="color: var(--muted); margin-bottom: 10px"></div>
+      <ul class="bench">
+        <li><b>63%</b><span id="b1"></span></li>
+        <li><b>49%</b><span id="b2"></span></li>
+        <li><b>46%</b><span id="b3"></span></li>
+      </ul>
+    </div>
+    <div class="row">
+      <button type="button" id="copy"></button>
+      <button type="button" class="ghost" id="again"></button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+  </section>
+
+  <p class="small" id="t_note"></p>
+</main>
+
+<script>
+(function () {
+  var T = {
+    en: {
+      eyebrow: 'L&D + data lens · 60 seconds',
+      lede: 'Learning more is not the same as using it. Three questions about the last month show how wide your own gap is, and what to fix first.',
+      q1tag: '1 of 3 · Where', q1: 'Think of one thing you learned in the last 30 days (a course, a tool, a skill). Where have you used it?',
+      q2tag: '2 of 3 · How often', q2: 'Since you learned it, how often do you use it?',
+      q3tag: '3 of 3 · What stops you', q3: 'What most stops you from using it more?',
+      o1: ['At work, on a real task', 'Only in practice or training', 'Nowhere yet'],
+      o2: ['Every week', 'About once a month', 'Not at all'],
+      o3: ['Not enough time', 'My manager or team does not support it', 'I have no real task to practice on', 'I am not sure what to apply, or how', 'Nothing stops me'],
+      count: function (n) { return n + ' of 3 answered'; },
+      go: 'See my gap', yourgap: 'Your Progress Gap', action: 'Your one action this week',
+      bench: 'How that compares',
+      b1: 'of learners feel busy learning without truly improving',
+      b2: 'kept a routine for months and still could not apply the skill',
+      b3: 'name human feedback or accountability as a top driver of consistency',
+      levels: [
+        ['Small gap', 'You are turning learning into action. Protect what works and keep a person in the loop.'],
+        ['Medium gap', 'You use some of it, but not often or not where it counts. Aim your effort at one real task.'],
+        ['Wide gap', 'The learning is not reaching your work yet. That is common, and fewer topics with real tasks help most.']
+      ],
+      actions: [
+        'Block 30 minutes this week and protect it. Pick one micro-lesson and finish it by applying it, not by marking it complete.',
+        'Ask your manager or one colleague to name one task where you can use it, and to look at the result with you.',
+        'Create the chance yourself: run the skill on one small, real task, or rehearse it out loud with a colleague playing the other side.',
+        'Write down one real situation next week where you will use it, before you start any new course. Learn only what that situation needs.',
+        'Keep going. Add a 30-day check-in: where did you use it, how often, what got in the way?'
+      ],
+      copy: 'Copy my result', copied: 'Copied. Paste it into your comment.', blocked: 'Copy is blocked here. Select this text instead: ',
+      again: 'Retake',
+      resultText: function (g, lv, a) { return 'My Progress Gap: ' + g + '% (' + lv.toLowerCase() + '). Action this week: ' + a; },
+      note: 'An informal self-check built around the Progress Gap idea in Preply\'s Progress Report 2026 (5,050 working professionals, 9 markets). It is not a validated test and is not made by Preply. The benchmark figures come from that report, a vendor survey with self-reported answers.',
+      meter: 'Gap meter: '
+    },
+    tr: {
+      eyebrow: 'L&D + veri gözü · 60 saniye',
+      lede: 'Çok öğrenmek, öğrendiğini kullanmak demek değil. Geçen aya dair üç soru, kendi boşluğunun ne kadar geniş olduğunu ve önce neyi düzeltmen gerektiğini gösterir.',
+      q1tag: '1 / 3 · Nerede', q1: 'Son 30 günde öğrendiğin bir şeyi düşün (bir kurs, bir araç, bir beceri). Onu nerede kullandın?',
+      q2tag: '2 / 3 · Ne sıklıkla', q2: 'Öğrendiğinden beri onu ne sıklıkla kullanıyorsun?',
+      q3tag: '3 / 3 · Seni ne engelliyor', q3: 'Daha çok kullanmanı en çok ne engelliyor?',
+      o1: ['İşte, gerçek bir görevde', 'Sadece alıştırmada veya eğitimde', 'Henüz hiçbir yerde'],
+      o2: ['Her hafta', 'Ayda yaklaşık bir kez', 'Hiç kullanmadım'],
+      o3: ['Yeterli zamanım yok', 'Yöneticim veya ekibim desteklemiyor', 'Üzerinde çalışacağım gerçek bir görev yok', 'Neyi, nasıl uygulayacağımdan emin değilim', 'Beni engelleyen bir şey yok'],
+      count: function (n) { return '3 sorudan ' + n + ' yanıtlandı'; },
+      go: 'Boşluğumu gör', yourgap: 'Senin İlerleme Boşluğun', action: 'Bu hafta tek aksiyon',
+      bench: 'Rapordakilerle karşılaştırma',
+      b1: 'öğrenmeye çok zaman ayırıp gerçekten ilerlemediğini hissediyor',
+      b2: 'aylarca rutin sürdürdü ama beceriyi uygulayamadı',
+      b3: 'tutarlılığın ana nedeni olarak insan geri bildirimini veya hesap verebilirliği gösteriyor',
+      levels: [
+        ['Küçük boşluk', 'Öğrendiğini aksiyona çeviriyorsun. İşe yarayanı koru ve döngüde bir insan bulundur.'],
+        ['Orta boşluk', 'Bir kısmını kullanıyorsun ama sık değil ya da önemli yerde değil. Çabanı tek bir gerçek göreve yönelt.'],
+        ['Geniş boşluk', 'Öğrendiklerin henüz işine ulaşmıyor. Bu yaygın bir durum, en çok gerçek görevlerle daha az konu işe yarar.']
+      ],
+      actions: [
+        'Bu hafta 30 dakikayı ayır ve koru. Bir mikro ders seç, "tamamlandı" işaretleyerek değil uygulayarak bitir.',
+        'Yöneticinden ya da bir meslektaşından, kullanabileceğin tek bir görevi söylemesini ve sonucu seninle birlikte incelemesini iste.',
+        'Fırsatı kendin yarat: beceriyi küçük, gerçek bir görevde dene ya da bir meslektaşın karşı tarafı oynadığı sesli bir prova yap.',
+        'Yeni bir kursa başlamadan önce, gelecek hafta kullanacağın gerçek bir durumu yaz. Yalnızca o durumun gerektirdiğini öğren.',
+        'Devam et. 30. günde bir kontrol ekle: nerede, ne sıklıkla kullandın, seni ne engelledi?'
+      ],
+      copy: 'Sonucumu kopyala', copied: 'Kopyalandı. Yorumuna yapıştır.', blocked: 'Burada kopyalama engelli. Bu metni seç: ',
+      again: 'Yeniden yap',
+      resultText: function (g, lv, a) { return 'İlerleme Boşluğum: %' + g + ' (' + lv.toLowerCase() + '). Bu haftaki aksiyonum: ' + a; },
+      note: 'Preply\'nin Progress Report 2026 raporundaki İlerleme Boşluğu fikri etrafında kurulmuş resmi olmayan bir öz değerlendirme (5.050 çalışan, 9 pazar). Doğrulanmış bir test değildir ve Preply tarafından yapılmamıştır. Karşılaştırma rakamları, öz bildirime dayanan bir satıcı anketi olan bu rapordan gelir.',
+      meter: 'Boşluk göstergesi: '
+    }
+  };
+
+  var lang = 'en';
+  var ans = [null, null, null];
+  var lastText = '';
+  var shown = false;
+  var $ = function (id) { return document.getElementById(id); };
+  var go = $('go'), form = $('quiz'), result = $('result'), status = $('status');
+
+  function buildOptions() {
+    var t = T[lang];
+    [['o1', 0], ['o2', 1], ['o3', 2]].forEach(function (pair) {
+      var box = $(pair[0]), q = pair[1];
+      box.innerHTML = '';
+      t['o' + (q + 1)].forEach(function (label, v) {
+        var id = 'q' + q + '_' + v;
+        var wrap = document.createElement('label');
+        wrap.className = 'opt'; wrap.setAttribute('for', id);
+        var input = document.createElement('input');
+        input.type = 'radio'; input.name = 'q' + q; input.id = id; input.value = String(v);
+        if (ans[q] === v) input.checked = true;
+        var span = document.createElement('span');
+        span.textContent = label;
+        wrap.appendChild(input); wrap.appendChild(span);
+        box.appendChild(wrap);
+        input.addEventListener('change', function () { ans[q] = v; update(); });
+      });
+    });
+  }
+
+  function update() {
+    var n = ans.filter(function (a) { return a !== null; }).length;
+    $('count').textContent = T[lang].count(n);
+    go.disabled = n < 3;
+  }
+
+  function compute() {
+    // Q1 and Q2 measure application (0 = best answer is index 0). Q3 picks the action.
+    var distance = ans[0] + ans[1]; // 0 to 4, lower is better
+    var gap = Math.round(distance / 4 * 100);
+    var li = gap <= 25 ? 0 : (gap <= 50 ? 1 : 2);
+    var ai = ans[2];
+    if (ans[2] === 4 && gap > 25) ai = 3; // "nothing" but still a gap: unclear what to apply
+    return { gap: gap, li: li, ai: ai };
+  }
+
+  function render() {
+    var t = T[lang];
+    $('t_eyebrow').textContent = t.eyebrow;
+    $('t_lede').textContent = t.lede;
+    ['q1tag', 'q1', 'q2tag', 'q2', 'q3tag', 'q3', 'note'].forEach(function (k) { $('t_' + k).textContent = t[k]; });
+    $('t_rey').textContent = t.yourgap; $('t_ah').textContent = t.action; $('t_bh').textContent = t.bench;
+    $('b1').textContent = t.b1; $('b2').textContent = t.b2; $('b3').textContent = t.b3;
+    go.textContent = t.go; $('copy').textContent = t.copy; $('again').textContent = t.again;
+    document.documentElement.lang = lang;
+    buildOptions();
+    update();
+    if (shown) showResult();
+  }
+
+  function showResult() {
+    var t = T[lang], r = compute();
+    $('gap').textContent = (lang === 'tr' ? '%' + r.gap : r.gap + '%');
+    $('rtitle').textContent = t.levels[r.li][0];
+    $('reading').textContent = t.levels[r.li][1];
+    $('action').textContent = t.actions[r.ai];
+    $('fill').style.width = r.gap + '%';
+    $('tr').setAttribute('aria-label', t.meter + r.gap + '%');
+    lastText = t.resultText(r.gap, t.levels[r.li][0], t.actions[r.ai]);
+    result.hidden = false;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (ans.some(function (a) { return a === null; })) return;
+    shown = true; status.textContent = '';
+    showResult();
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  $('copy').addEventListener('click', function () {
+    var t = T[lang];
+    var done = function () { status.textContent = t.copied; };
+    var fail = function () { status.textContent = t.blocked + lastText; };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(lastText).then(done, fail);
+      else fail();
+    } catch (err) { fail(); }
+  });
+
+  $('again').addEventListener('click', function () {
+    ans = [null, null, null]; shown = false; status.textContent = '';
+    result.hidden = true; form.reset(); buildOptions(); update();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  function setLang(l) {
+    lang = l;
+    $('l_en').setAttribute('aria-pressed', String(l === 'en'));
+    $('l_tr').setAttribute('aria-pressed', String(l === 'tr'));
+    status.textContent = '';
+    render();
+  }
+  $('l_en').addEventListener('click', function () { setLang('en'); });
+  $('l_tr').addEventListener('click', function () { setLang('tr'); });
+
+  render();
+})();
+</script>
+</body>
+</html>
