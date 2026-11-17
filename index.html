@@ -210,7 +210,7 @@
   .hero-orbit path{fill:none;stroke:#a9a4a0;stroke-width:1;opacity:.25}
   .hero-orbit circle{fill:var(--accent);opacity:.45}
   .hero-content{position:relative;z-index:1;width:min(850px,100%);margin:0 auto}
-  .hero-kicker{font-size:.68rem;letter-spacing:.22em;color:#a8a9b1;margin-bottom:74px;display:flex;justify-content:center;align-items:center;gap:12px}
+  .hero-kicker{font-size:.65rem;letter-spacing:.2em;color:#a8a9b1;margin-bottom:54px;display:flex;justify-content:center;align-items:center;gap:12px}
   .hero-kicker span{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px rgba(255,197,49,.5)}
   .hero-kicker i{font-style:normal;color:var(--accent)}
   .chapter-nav{display:flex;align-items:center;justify-content:center;gap:38px;margin:0 auto 40px;max-width:560px;position:relative}
@@ -221,8 +221,8 @@
   .chapter.active i{background:var(--accent)}
   .chapter-label{font-size:.72rem;color:#c2c0bd;letter-spacing:.04em;margin-left:10px}
   .hero-overline{font-size:.65rem;letter-spacing:.23em;color:var(--accent);margin-bottom:22px}
-  .hero-editorial h1{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(2.8rem,5.7vw,5.4rem);line-height:1.04;letter-spacing:-.025em;max-width:880px;margin:0 auto 22px;color:#f2f0ec}
-  .hero-intro{font-size:.98rem;line-height:1.8;color:#a6a8b1;max-width:570px;margin:0 auto 34px}
+  .hero-editorial h1{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(2.35rem,4.5vw,4.25rem);line-height:1.08;letter-spacing:-.025em;max-width:760px;margin:0 auto 18px;color:#f2f0ec}
+  .hero-intro{font-size:.92rem;line-height:1.7;color:#a6a8b1;max-width:540px;margin:0 auto 26px}
   .hero-actions{display:flex;justify-content:center;gap:34px;flex-wrap:wrap}
   .hero-link{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#e8e4dc;padding:10px 0;border-bottom:1px solid rgba(255,197,49,.65);transition:color .25s,border-color .25s}
   .hero-link span{color:var(--accent);margin-left:8px}
@@ -232,6 +232,10 @@
   .hero-foot b{color:var(--accent);font-weight:400;margin:0 8px}
   .hero-foot a{color:#a9abb3}
   .hero-foot a span{color:var(--accent);margin-left:8px}
+  .hero-editorial .hero-content{transition:opacity .25s ease,transform .25s ease}
+  .hero-editorial .hero-content.is-changing{opacity:.3;transform:translateY(5px)}
+  .hero-editorial .chapter.active i{animation:chapterProgress 6s linear forwards}
+  @keyframes chapterProgress{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
   .hero-editorial .hero-kicker,.hero-editorial .chapter-nav,.hero-editorial .hero-overline,.hero-editorial h1,.hero-editorial .hero-intro,.hero-editorial .hero-actions{animation:heroRise .85s both}
   .hero-editorial .chapter-nav{animation-delay:.08s}.hero-editorial .hero-overline{animation-delay:.14s}.hero-editorial h1{animation-delay:.2s}.hero-editorial .hero-intro{animation-delay:.28s}.hero-editorial .hero-actions{animation-delay:.36s}
   @keyframes heroRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -507,17 +511,40 @@
     {label:'Customer success',overline:'CUSTOMERS · ADOPTION · ANALYTICS',headline:'Connecting customer needs with measurable improvement.',intro:'Supporting 30+ corporate LMS customers and using data to identify adoption gaps and practical next steps.'},
     {label:'Data quality',overline:'DATA · ACCURACY · CONTINUOUS IMPROVEMENT',headline:'Making data more reliable — and decisions more useful.',intro:'Working with large-scale ML data, accuracy targets and clear processes at Delivery Hero.'}
   ];
-  document.querySelectorAll('.chapter').forEach((button) => {
-    button.addEventListener('click', () => {
-      const index = Number(button.dataset.chapter);
-      const item = chapters[index];
-      document.querySelectorAll('.chapter').forEach((b,i) => { b.classList.toggle('active',i===index); b.setAttribute('aria-pressed',i===index?'true':'false'); });
+  const chapterButtons = [...document.querySelectorAll('.chapter')];
+  const heroContent = document.querySelector('.hero-content');
+  let activeChapter = 0;
+  let chapterTimer = null;
+  function showChapter(index, restart = true) {
+    activeChapter = index;
+    const item = chapters[index];
+    chapterButtons.forEach((b,i) => { b.classList.toggle('active',i===index); b.setAttribute('aria-pressed',i===index?'true':'false'); });
+    heroContent.classList.add('is-changing');
+    window.setTimeout(() => {
       document.getElementById('chapterLabel').textContent = item.label;
       document.getElementById('heroOverline').textContent = item.overline;
       document.getElementById('heroHeadline').textContent = item.headline;
       document.getElementById('heroIntro').textContent = item.intro;
-    });
+      heroContent.classList.remove('is-changing');
+    }, 160);
+    if (restart) startChapterSlideshow();
+  }
+  function startChapterSlideshow() {
+    if (chapterTimer) window.clearInterval(chapterTimer);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    chapterTimer = window.setInterval(() => showChapter((activeChapter + 1) % chapters.length, false), 6000);
+  }
+  chapterButtons.forEach(button => button.addEventListener('click', () => showChapter(Number(button.dataset.chapter))));
+  const hero = document.querySelector('.hero-editorial');
+  hero.addEventListener('mouseenter', () => { if (chapterTimer) window.clearInterval(chapterTimer); });
+  hero.addEventListener('mouseleave', startChapterSlideshow);
+  hero.addEventListener('focusin', () => { if (chapterTimer) window.clearInterval(chapterTimer); });
+  hero.addEventListener('focusout', startChapterSlideshow);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { if (chapterTimer) window.clearInterval(chapterTimer); }
+    else startChapterSlideshow();
   });
+  startChapterSlideshow();
 
   // mobile nav
   const burger = document.getElementById('burger');
