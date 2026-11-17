@@ -227,15 +227,6 @@ tabs.forEach((b,i)=>b.addEventListener("click",()=>{currentLayer=i;renderLayer(i
 document.getElementById("languageSelect").addEventListener("change",e=>setLanguage(e.target.value));
 setLanguage("en");
 
-const details=[
-{tag:"Layer 01 · Foundation",title:"Integration",body:"Bring fragmented learning and workforce information into a consistent, reliable view. The proposed layer uses ETL logic — extract, transform and load — to clean and merge data from systems such as LMS, HRIS and CRM.",items:["Resolve inconsistent identifiers and formats.","Reduce manual data preparation.","Create a dependable foundation for analysis."],flow:["LMS / LXP","+","HRIS","+","CRM","→","Clean, connected data"]},
-{tag:"Layer 02 · Business relevance",title:"Strategic Value",body:"Filter out activity-only measures when the question is business impact. Connect learning signals with relevant KPIs and focus on skill transfer and time-to-proficiency rather than treating course completion as ROI.",items:["Distinguish hygiene metrics from outcome indicators.","Explore relationships with sales, retention or error reduction.","Track how quickly employees reach proficiency."],flow:["Learning data","+","Workforce KPIs","→","Skill transfer & value"]},
-{tag:"Layer 03 · Interpretation",title:"Analytical",body:"Combine predictive and prescriptive thinking in a way that people can understand. The interviews highlighted a data-literacy gap: complex statistics are not useful if teams cannot interpret them or decide what to do.",items:["Translate patterns into clear signals.","Use hybrid or prescriptive logic rather than prediction alone.","Reduce the cognitive effort needed to interpret dashboards."],flow:["Connected signals","→","Analysis","→","Understandable insight"]},
-{tag:"Layer 04 · Intervention",title:"Action",body:"Move beyond a passive dashboard. The proposed action layer turns insight into a suggested or automated intervention — for example, identifying an at-risk skill segment and recommending targeted remedial content.",items:["Identify teams or learners who may need support.","Recommend a relevant learning intervention.","Create a feedback loop to review whether the action helped."],flow:["Insight","→","Recommended action","→","Review impact"]}
-];
-const tabs=[...document.querySelectorAll(".layer")],panel=document.getElementById("layerDetail");
-function showLayer(i){const d=details[i];tabs.forEach((b,j)=>{b.classList.toggle("active",i===j);b.setAttribute("aria-selected",i===j?"true":"false")});panel.innerHTML='<div class="tag">'+d.tag+'</div><h3>'+d.title+'</h3><p>'+d.body+'</p><ul>'+d.items.map(x=>"<li>"+x+"</li>").join("")+'</ul><div class="flow">'+d.flow.map((x,j)=>j%2===1?'<i>'+x+'</i>':'<span>'+x+'</span>').join("")+'</div>'}
-tabs.forEach((b,i)=>b.addEventListener("click",()=>showLayer(i)));
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
 </body></html>
