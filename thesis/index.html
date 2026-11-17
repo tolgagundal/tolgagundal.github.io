@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learning Analytics Model (LAM) — Tolga Gündal</title>
+<meta name="description" content="A research-led four-layer Learning Analytics Model for corporate learning: connecting fragmented data to strategic value and practical action.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0b0e;--panel:#12151b;--panel2:#171c24;--line:#28313d;--text:#f3f5f7;--muted:#a4adba;--gold:#f5c451;--cyan:#76d5d0;--blue:#8db8ff;--purple:#c0a0ff;--green:#9bd6a6;--max:1120px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 'DM Sans',sans-serif}h1,h2,h3{font-family:Manrope,sans-serif;line-height:1.15;letter-spacing:-.035em}a{color:inherit;text-decoration:none}.wrap{max-width:var(--max);margin:auto;padding:0 26px}
+header{position:sticky;top:0;z-index:5;background:#0a0b0ee8;backdrop-filter:blur(16px);border-bottom:1px solid #ffffff12}nav{max-width:var(--max);margin:auto;padding:15px 26px;display:flex;justify-content:space-between;align-items:center}.brand{font:700 15px Manrope}.brand span{color:var(--gold)}.navlinks{display:flex;gap:24px;color:var(--muted);font-size:13px}.navlinks a:hover{color:var(--gold)}
+.hero{padding:92px 0 72px;max-width:900px}.kicker{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.17em;text-transform:uppercase}.hero h1{font-size:clamp(42px,7vw,76px);margin:20px 0}.hero h1 em{font-style:normal;color:var(--gold)}.lead{font-size:clamp(18px,2.3vw,22px);color:#d4dae2;max-width:800px}.byline{margin-top:28px;color:var(--muted);font-size:13px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;padding:12px 18px;border-radius:9px;font-weight:700;font-size:13px;background:var(--gold);color:#1b170c}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px auto 72px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.metric strong{font:800 clamp(28px,4vw,42px) Manrope;color:var(--gold);display:block}.metric span{font-size:13px;color:var(--muted)}
+section{padding:70px 0;border-top:1px solid #ffffff0c}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}.section-head{font-size:clamp(29px,4vw,43px);margin:10px 0 14px}.intro{max-width:760px;color:var(--muted);font-size:17px}
+.problemgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}.problem{padding:25px;background:var(--panel);border:1px solid var(--line);border-radius:14px}.problem h3{font-size:18px;margin:0 0 8px}.problem p{color:var(--muted);margin:0;font-size:14px}.pull{color:var(--gold);font:700 24px Manrope;margin-bottom:8px}
+.chart{margin-top:28px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}.barrow{display:grid;grid-template-columns:minmax(150px,220px) 1fr 52px;gap:14px;align-items:center;margin:18px 0}.barlabel{font-size:14px;color:#dce2e9}.track{height:12px;border-radius:20px;background:#252c36;overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--gold),#f6df9e)}.barval{font:700 14px Manrope;text-align:right}.chart small,.note{color:var(--muted);font-size:12px}
+.model{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:start;margin-top:32px}.stack{display:grid;gap:10px}.layer{width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:18px;cursor:pointer;color:var(--text);transition:.2s}.layer:hover,.layer.active{border-color:var(--gold);background:#1a1d23;transform:translateX(3px)}.layer .num{font-size:11px;color:var(--muted);letter-spacing:.12em}.layer b{display:block;font:700 17px Manrope;margin:4px 0}.layer span:last-child{font-size:13px;color:var(--muted)}.detail{min-height:310px;border:1px solid var(--line);border-radius:16px;padding:30px;background:linear-gradient(145deg,#171c24,#101319)}.detail .tag{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.15em;font-weight:700}.detail h3{font-size:28px;margin:12px 0}.detail p,.detail li{color:var(--muted);font-size:15px}.detail ul{padding-left:20px}.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:22px}.flow span{padding:8px 11px;background:#202833;border:1px solid var(--line);border-radius:8px;font-size:12px}.flow i{color:var(--gold);font-style:normal}
+.takeaways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.take{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}.take b{font:700 17px Manrope;display:block;margin-bottom:8px}.take p{color:var(--muted);font-size:14px;margin:0}
+.quote{font:600 clamp(21px,3vw,30px)/1.4 Manrope;max-width:850px;border-left:3px solid var(--gold);padding:8px 0 8px 25px;margin:34px 0;color:#e8edf2}
+.cta{background:linear-gradient(135deg,#1d2026,#131821);border:1px solid #3b3b37;border-radius:20px;padding:clamp(28px,5vw,52px);margin:30px 0 80px}.cta h2{font-size:clamp(28px,4vw,42px);margin:10px 0}.cta p{color:var(--muted);max-width:700px}.fine{color:var(--muted);font-size:12px;max-width:850px;margin-top:24px}footer{border-top:1px solid #ffffff12;padding:28px 0;color:var(--muted);font-size:12px}
+@media(max-width:760px){.navlinks{gap:12px;font-size:11px}.metrics{grid-template-columns:1fr 1fr}.problemgrid,.model,.takeaways{grid-template-columns:1fr}.barrow{grid-template-columns:1fr 48px;gap:8px}.barlabel{grid-column:1/-1}.track{grid-column:1}.barval{grid-column:2;grid-row:2}.hero{padding-top:65px}}
+</style>
+</head>
+<body>
+<header><nav><a class="brand" href="../">TOLGA <span>GÜNDAL</span> / RESEARCH</a><div class="navlinks"><a href="../">Portfolio</a><a href="#findings">Findings</a><a href="#model">The model</a><a href="#contact">Discuss</a></div></nav></header>
+<main>
+<div class="wrap">
+<div class="hero">
+<div class="kicker">MSc Dissertation · Corporate Learning · Learning Analytics</div>
+<h1>What if learning data could do more than tell us who <em>logged in?</em></h1>
+<p class="lead">A research-led model for connecting the dots between learning activity, employee capability and business performance — then turning those insights into a useful next step.</p>
+<div class="byline">By Tolga Gündal · MSc Data Analytics · Berlin · Research based on 9 semi-structured expert interviews</div>
+<div class="actions"><a class="btn" href="#model">Explore the LAM model ↓</a><a class="btn ghost" href="mailto:tolgagundal1@gmail.com?subject=Learning%20Analytics%20Model%20-%20Further%20Discussion">Discuss the research ↗</a></div>
+</div>
+<div class="metrics">
+<div class="metric"><strong>9</strong><span>Senior professionals interviewed</span></div>
+<div class="metric"><strong>100%</strong><span>Said completion and login metrics alone have low strategic value</span></div>
+<div class="metric"><strong>89%</strong><span>Identified disconnected data systems as a major barrier</span></div>
+<div class="metric"><strong>0%</strong><span>Preferred a predictive-only analytics approach</span></div>
+</div>
+</div>
+
+<section id="challenge"><div class="wrap">
+<div class="eyebrow">The question behind the research</div><h2 class="section-head">Companies have learning data. But can they connect it to what changes at work?</h2>
+<p class="intro">LMS and LXP platforms record completions, logins and time spent. Useful signals — but they don't automatically tell an L&D team whether someone has become more capable, whether performance has improved, or what to do next.</p>
+<div class="problemgrid">
+<div class="problem"><div class="pull">01 / Fragmented</div><h3>Data lives in separate systems</h3><p>Learning, HR and business data often sit in different tools, use inconsistent identifiers and are difficult to bring together.</p></div>
+<div class="problem"><div class="pull">02 / Misleading</div><h3>Activity is not the same as impact</h3><p>A completed course or a long session can look positive in a report without demonstrating skill transfer or business value.</p></div>
+<div class="problem"><div class="pull">03 / Hard to interpret</div><h3>Dashboards can create more work</h3><p>Complex charts and raw metrics still leave busy L&D professionals with the task of deciding what action to take.</p></div>
+<div class="problem"><div class="pull">04 / Disconnected</div><h3>Insight doesn't always lead to action</h3><p>Without a clear link to business priorities, analytics risks becoming another reporting exercise rather than a decision-support capability.</p></div>
+</div>
+</div></section>
+
+<section id="findings"><div class="wrap">
+<div class="eyebrow">What the interviews surfaced</div><h2 class="section-head">A few findings changed how the model needed to work.</h2>
+<p class="intro">I interviewed nine experienced professionals across Learning &amp; Development, EdTech and People Analytics, then analysed the conversations thematically. These are the strongest patterns reported in the study.</p>
+<div class="chart">
+<div class="barrow"><div class="barlabel">Completion / login metrics seen as insufficient on their own</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="barval">100%</div></div>
+<div class="barrow"><div class="barlabel">Data silos identified as a key barrier</div><div class="track"><div class="fill" style="width:89%"></div></div><div class="barval">89%</div></div>
+<div class="barrow"><div class="barlabel">Data literacy gap identified</div><div class="track"><div class="fill" style="width:78%"></div></div><div class="barval">78%</div></div>
+<div class="barrow"><div class="barlabel">Preferred prescriptive analytics</div><div class="track"><div class="fill" style="width:56%"></div></div><div class="barval">56%</div></div>
+<div class="barrow"><div class="barlabel">Preferred a hybrid predictive + prescriptive approach</div><div class="track"><div class="fill" style="width:44%"></div></div><div class="barval">44%</div></div>
+<div class="barrow"><div class="barlabel">Preferred predictive-only analytics</div><div class="track"><div class="fill" style="width:0%"></div></div><div class="barval">0%</div></div>
+<small>Percentages reflect the coding / preference counts reported in this nine-person qualitative study. They describe this interview sample, not the wider L&amp;D industry.</small>
+</div>
+<div class="quote">The useful question isn't only “What happened in the LMS?” It's “What changed at work — and what should we do next?”</div>
+<div class="takeaways">
+<div class="take"><b>Stop treating activity as impact</b><p>Completion and login rates are operational signals, not proof of learning transfer or ROI.</p></div>
+<div class="take"><b>Connect learning to work</b><p>Look for relationships between learning and indicators such as time-to-proficiency, error reduction and sales performance.</p></div>
+<div class="take"><b>Make the next step clear</b><p>Professionals need guidance they can act on, not another dashboard that leaves interpretation entirely to them.</p></div>
+</div>
+</div></section>
+
+<section id="model"><div class="wrap">
+<div class="eyebrow">The central contribution</div><h2 class="section-head">The Learning Analytics Model (LAM)</h2>
+<p class="intro">The model developed from the interview findings is designed as a strategic navigation system — not simply a reporting dashboard. Select each layer to see how it moves from disconnected data to a practical intervention.</p>
+<div class="model">
+<div class="stack" role="tablist" aria-label="LAM architecture layers">
+<button class="layer active" data-layer="0" role="tab" aria-selected="true"><span class="num">LAYER 01</span><b>Integration</b><span>Make the data usable before analysing it.</span></button>
+<button class="layer" data-layer="1" role="tab" aria-selected="false"><span class="num">LAYER 02</span><b>Strategic Value</b><span>Separate activity metrics from business-relevant signals.</span></button>
+<button class="layer" data-layer="2" role="tab" aria-selected="false"><span class="num">LAYER 03</span><b>Analytical</b><span>Translate evidence into understandable insight.</span></button>
+<button class="layer" data-layer="3" role="tab" aria-selected="false"><span class="num">LAYER 04</span><b>Action</b><span>Turn insight into a timely recommendation.</span></button>
+</div>
+<div class="detail" id="layerDetail" role="tabpanel" aria-live="polite">
+<div class="tag">Layer 01 · Foundation</div><h3>Integration</h3><p>Bring fragmented learning and workforce information into a consistent, reliable view. The proposed layer uses ETL logic — extract, transform and load — to clean and merge data from systems such as LMS, HRIS and CRM.</p><ul><li>Resolve inconsistent identifiers and formats.</li><li>Reduce manual data preparation.</li><li>Create a dependable foundation for analysis.</li></ul><div class="flow"><span>LMS / LXP</span><i>+</i><span>HRIS</span><i>+</i><span>CRM</span><i>→</i><span>Clean, connected data</span></div>
+</div>
+</div>
+<div class="note" style="margin-top:16px">The four-layer architecture is the proposed conceptual model derived from the research. It is not presented as a deployed software product or a validated production system.</div>
+</div></section>
+
+<section id="so-what"><div class="wrap">
+<div class="eyebrow">From measurement to management</div><h2 class="section-head">What could this change for an L&amp;D team?</h2>
+<div class="problemgrid">
+<div class="problem"><h3>From course completion → skill transfer</h3><p>Pair learning records with role-specific performance signals to ask whether capability is showing up in day-to-day work.</p></div>
+<div class="problem"><h3>From static reports → targeted support</h3><p>Identify teams or skill areas that may need a different learning intervention, rather than sending the same content to everyone.</p></div>
+<div class="problem"><h3>From activity counts → business context</h3><p>Explore links between learning and relevant KPIs — for example, time-to-proficiency, error rates, sales or customer outcomes.</p></div>
+<div class="problem"><h3>From “what might happen?” → “what should we do?”</h3><p>Use prescriptive or hybrid logic to recommend a next step, while keeping people accountable for decisions and context.</p></div>
+</div>
+<p class="intro" style="margin-top:25px">One practitioner example discussed in the research illustrated time-to-proficiency: reducing onboarding from three months to two. This was an interview example used to explain the metric — not an outcome measured or delivered by this study.</p>
+</div></section>
+
+<section id="method"><div class="wrap">
+<div class="eyebrow">How the research was done</div><h2 class="section-head">Built by listening to people doing the work.</h2>
+<p class="intro">This was a qualitative, exploratory study. I used semi-structured interviews with nine senior professionals in L&amp;D, EdTech and People Analytics, then applied thematic analysis to identify recurring barriers, metric preferences and model requirements.</p>
+<div class="takeaways">
+<div class="take"><b>01 · Listen</b><p>Capture practical experiences from professionals working with corporate learning and people data.</p></div>
+<div class="take"><b>02 · Identify patterns</b><p>Compare recurring themes around data integration, measurement, data literacy and decision-making.</p></div>
+<div class="take"><b>03 · Design the model</b><p>Map the findings into four connected layers: Integration, Strategic Value, Analytical and Action.</p></div>
+</div>
+<p class="fine">Scope matters: nine expert interviews provide qualitative insight and a basis for a proposed framework. The study does not claim statistical representativeness, causal proof of ROI, or empirical validation through a live enterprise deployment. Implementation and testing in a real corporate environment would be the next step.</p>
+</div></section>
+
+<div class="wrap" id="contact"><div class="cta">
+<div class="eyebrow">Take the conversation further</div><h2>Could this model help your learning team?</h2>
+<p>I'm interested in discussing how the LAM could be adapted to real organisational data, learning platforms and business priorities. If you're working in L&amp;D, People Analytics, HR, EdTech or Learning Technology, I'd be glad to compare notes and explore practical applications.</p>
+<div class="actions"><a class="btn" href="mailto:tolgagundal1@gmail.com?subject=Let's%20discuss%20the%20Learning%20Analytics%20Model">Talk to me about the model ↗</a><a class="btn ghost" href="https://www.linkedin.com/in/tolgagundal" target="_blank" rel="noopener">Connect on LinkedIn ↗</a></div>
+<p class="fine">For the full methodology, interview protocol, detailed analysis and references, please get in touch. Dissertation: “A Data-Driven Approach for Enhancing Learning Experiences in Corporate Learning through Learning Analytics” · MSc Data Analytics.</p>
+</div></div>
+</main>
+<footer><div class="wrap">© <span id="year"></span> Tolga Gündal · Independent academic research · <a href="../">Back to portfolio</a></div></footer>
+<script>
+const details=[
+{tag:"Layer 01 · Foundation",title:"Integration",body:"Bring fragmented learning and workforce information into a consistent, reliable view. The proposed layer uses ETL logic — extract, transform and load — to clean and merge data from systems such as LMS, HRIS and CRM.",items:["Resolve inconsistent identifiers and formats.","Reduce manual data preparation.","Create a dependable foundation for analysis."],flow:["LMS / LXP","+","HRIS","+","CRM","→","Clean, connected data"]},
+{tag:"Layer 02 · Business relevance",title:"Strategic Value",body:"Filter out activity-only measures when the question is business impact. Connect learning signals with relevant KPIs and focus on skill transfer and time-to-proficiency rather than treating course completion as ROI.",items:["Distinguish hygiene metrics from outcome indicators.","Explore relationships with sales, retention or error reduction.","Track how quickly employees reach proficiency."],flow:["Learning data","+","Workforce KPIs","→","Skill transfer & value"]},
+{tag:"Layer 03 · Interpretation",title:"Analytical",body:"Combine predictive and prescriptive thinking in a way that people can understand. The interviews highlighted a data-literacy gap: complex statistics are not useful if teams cannot interpret them or decide what to do.",items:["Translate patterns into clear signals.","Use hybrid or prescriptive logic rather than prediction alone.","Reduce the cognitive effort needed to interpret dashboards."],flow:["Connected signals","→","Analysis","→","Understandable insight"]},
+{tag:"Layer 04 · Intervention",title:"Action",body:"Move beyond a passive dashboard. The proposed action layer turns insight into a suggested or automated intervention — for example, identifying an at-risk skill segment and recommending targeted remedial content.",items:["Identify teams or learners who may need support.","Recommend a relevant learning intervention.","Create a feedback loop to review whether the action helped."],flow:["Insight","→","Recommended action","→","Review impact"]}
+];
+const tabs=[...document.querySelectorAll(".layer")],panel=document.getElementById("layerDetail");
+function showLayer(i){const d=details[i];tabs.forEach((b,j)=>{b.classList.toggle("active",i===j);b.setAttribute("aria-selected",i===j?"true":"false")});panel.innerHTML='<div class="tag">'+d.tag+'</div><h3>'+d.title+'</h3><p>'+d.body+'</p><ul>'+d.items.map(x=>"<li>"+x+"</li>").join("")+'</ul><div class="flow">'+d.flow.map((x,j)=>j%2===1?'<i>'+x+'</i>':'<span>'+x+'</span>').join("")+'</div>'}
+tabs.forEach((b,i)=>b.addEventListener("click",()=>showLayer(i)));
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body></html>
